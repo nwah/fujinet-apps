@@ -331,6 +331,14 @@ open_url(void)
     strncpy(url, http_http, 7);
   }
 
+  /* Append slash if not specified */
+  urlptr = url + 8; // skip "http(s)://"
+  while (*urlptr != '/' && *urlptr != '\0')
+    urlptr++;
+  if (urlptr == url + strlen(url)) {
+    strncpy(urlptr, "/", 1);
+  }
+
   /* We send out the initial GET request. */
   if(webclient_open(url) == 0) {
     show_statustext("URL error");
